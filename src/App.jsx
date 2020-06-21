@@ -4,108 +4,44 @@ import "./App.css";
 
 import Board from "./components/Board/Board";
 
-const BOARD_X = 10;
-const BOARD_Y = 10;
+import utils from "./utils/utils";
 
 class App extends Component {
    constructor(props) {
       super(props);
-      const size = { x: BOARD_X, y: BOARD_X };
-
-      this.state = {
-         size: size,
-         tick: 1000,
-         cells: this.initBoard(size),
-         running: false,
-      };
    }
 
-   initBoard = ({ x, y }) => {
-      let board = [];
-      for (let i = 0; i < x; i++) {
-         board[i] = [];
-         for (let j = 0; j < y; j++) {
-            board[i][j] = Math.round(Math.random()) ? true : false;
-         }
-      }
-      return board;
-   };
-
    tick = () => {
-      let board = [];
-
-      for (let i = 0; i < this.state.size.x; i++) {
-         board[i] = [];
-         for (let j = 0; j < this.state.size.y; j++) {
-            const liveNeighbours = this.getLiveNeighbours(i, j);
-            if (this.state.cells[i][j]) {
-               board[i][j] =
-                  liveNeighbours === 2 || liveNeighbours === 3 ? true : false;
-            } else {
-               board[i][j] = liveNeighbours === 3 ? true : false;
-            }
-         }
-      }
-
-      this.setState({
-         cells: board,
-      });
+      const newCells = utils.calculateTick(this.props.cells);
+      this.props.onTick(newCells);
    };
-
-   reset = () => {
-      this.stop();
-      this.setState({
-         cells: this.initBoard(this.state.size),
-      });
-   };
-
    start = () => {
       this.tick();
-      this.ticker = setInterval(this.tick, this.state.tick);
-      this.setState({ running: true });
+      this.props.onStart(setInterval(this.tick, this.props.tick));
    };
-
    stop = () => {
-      clearInterval(this.ticker);
-      this.setState({ running: false });
+      this.props.onStop();
    };
-
+   reset = () => {
+      this.props.onStop();
+      this.props.onTick(
+         utils.initBoard({
+            x: this.props.cells.length,
+            y: this.props.cells[0].length,
+         })
+      );
+   };
    incrX = () => {
-      const newSize = { ...this.state.size };
-      newSize.x++;
-      this.setState({
-         size: newSize,
-         cells: this.initBoard(newSize),
-      });
+      this.props.onXIncrement();
    };
-
+   incrY = () => {
+      this.props.onYIncrement();
+   };
    decrX = () => {
-      const newSize = { ...this.state.size };
-      newSize.x--;
-      this.setState({
-         size: newSize,
-         cells: this.initBoard(newSize),
-      });
+      this.props.onXDecrement();
    };
-
-   getLiveNeighbours = (x, y) => {
-      let liveNeighbours = 0;
-
-      const cells = this.state.cells;
-      const maxX = this.state.size.x;
-      const maxY = this.state.size.y;
-
-      if (x > 0 && y > 0) liveNeighbours += cells[x - 1][y - 1] ? 1 : 0;
-      if (y > 0) liveNeighbours += cells[x][y - 1] ? 1 : 0;
-      if (x < maxX - 1 && y > 0) liveNeighbours += cells[x + 1][y - 1] ? 1 : 0;
-      if (x > 0) liveNeighbours += cells[x - 1][y] ? 1 : 0;
-      if (x < maxX - 1) liveNeighbours += cells[x + 1][y] ? 1 : 0;
-      if (x > 0 && y < maxY - 1) liveNeighbours += cells[x - 1][y + 1] ? 1 : 0;
-      if (y < maxY - 1) liveNeighbours += cells[x][y + 1] ? 1 : 0;
-      if (x < maxX - 1 && y < maxY - 1)
-         liveNeighbours += cells[x + 1][y + 1] ? 1 : 0;
-
-      return liveNeighbours;
+   decrY = () => {
+      this.props.onYDecrement();
    };
 
    render() {
@@ -117,12 +53,10 @@ class App extends Component {
             <button onClick={this.stop}>Stop</button>
             <button onClick={this.incrX}>X +</button>
             <button onClick={this.decrX}>X -</button>
+            <button onClick={this.incrY}>Y +</button>
+            <button onClick={this.decrY}>Y -</button>
 
-            <Board
-               x={this.state.size.x}
-               y={this.state.size.y}
-               cells={this.state.cells}
-            ></Board>
+            <Board></Board>
          </React.Fragment>
       );
    }
@@ -130,10 +64,31 @@ class App extends Component {
 
 function mapStateToProps(state) {
    return {
-      hello: state.hello,
+      size: state.main.size,
+      tick: state.main.tick,
+      cells: state.main.cells,
    };
 }
 
-const ConnectedApp = connect(mapStateToProps)(App);
+function mapDispatchToProps(dispatch) {
+   return {
+      onStart: (tickerHandle) => {
+         dispatch({
+            type: "START",
+            tickerHandle: tickerHandle,
+         });
+      },
+      onStop: () => dispatch({ type: "STOP" }),
+      onTick: (cells) => {
+         dispatch({ type: "TICK", cells: cells });
+      },
+      onXIncrement: () => dispatch({ type: "X_INCREMENT" }),
+      onXDecrement: () => dispatch({ type: "X_DECREMENT" }),
+      onYIncrement: () => dispatch({ type: "Y_INCREMENT" }),
+      onYDecrement: () => dispatch({ type: "Y_DECREMENT" }),
+   };
+}
+
+const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
 export default ConnectedApp;

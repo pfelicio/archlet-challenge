@@ -10,9 +10,10 @@ class Cell extends Component {
    render() {
       const className = this.props.alive ? classes.CellAlive : classes.CellDead;
       const cellStyle = {
-         top: `${this.props.y * 5}em`,
-         left: `${this.props.x * 5}em`,
+         top: `${this.props.y * this.props.cellSize}em`,
+         left: `${this.props.x * this.props.cellSize}em`,
       };
+
       return <div style={cellStyle} className={className}></div>;
    }
 }

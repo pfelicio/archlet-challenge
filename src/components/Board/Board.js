@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import classes from "./Board.module.css";
+import { connect } from "react-redux";
 
 import Cell from "../Cell/Cell";
 
@@ -9,20 +10,27 @@ class Board extends Component {
    }
 
    render() {
-      const width = this.props.x * 5;
-      const height = this.props.y * 5;
+      const width = this.props.cells.length * this.props.cellSize;
+      const height = this.props.cells[0].length * this.props.cellSize;
       const style = {
          width: `${width}em`,
          height: `${height}em`,
          backgroundColor: "lightgrey",
          position: "relative",
       };
+
       return (
          <div style={style}>
             {this.props.cells.map((col, i) => {
                return col.map((alive, j) => {
                   return (
-                     <Cell key={`${i}-${j}`} alive={alive} x={i} y={j}></Cell>
+                     <Cell
+                        key={`${i}-${j}`}
+                        alive={alive}
+                        x={i}
+                        y={j}
+                        cellSize={this.props.cellSize}
+                     ></Cell>
                   );
                });
             })}
@@ -31,4 +39,11 @@ class Board extends Component {
    }
 }
 
-export default Board;
+const mapStateToProps = (state) => {
+   return {
+      cells: state.main.cells,
+      cellSize: state.main.cellSize,
+   };
+};
+
+export default connect(mapStateToProps)(Board);
