@@ -4,7 +4,8 @@
    "private": true,
    "scripts": {
       "start": "react-scripts start",
-      "test": "jest"
+      "test": "jest",
+      "coverage": "jest --collect-coverage"
    },
    "dependencies": {
       "autoprefixer": "^9.8.0",
