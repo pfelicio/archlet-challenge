@@ -27,7 +27,7 @@ function main(state = initialState, action) {
       case "STOP": {
          clearInterval(state.tickerHandle);
          return update(state, {
-            running: { $set: true },
+            running: { $set: false },
             tickerHandle: { $set: null },
          });
       }

@@ -16,8 +16,10 @@ class App extends Component {
       this.props.onTick(newCells);
    };
    start = () => {
-      this.tick();
-      this.props.onStart(setInterval(this.tick, this.props.tick));
+      if (!this.props.running) {
+         this.tick();
+         this.props.onStart(setInterval(this.tick, this.props.tick));
+      }
    };
    stop = () => {
       this.props.onStop();
@@ -67,6 +69,7 @@ function mapStateToProps(state) {
       size: state.main.size,
       tick: state.main.tick,
       cells: state.main.cells,
+      running: state.main.running,
    };
 }
 
