@@ -1,16 +1,49 @@
-
 # Game of Life
 
-> Archlet fullstack developer coding challenge.
+> This is my take on [Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life).
 
-## The Challenge
+## Install
 
-Write a simple version of the [game of life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) with the stack ES6+JSX, React and Redux.
+Clone or download the repository:
 
-This challenge should take you a couple of hours and your are free to choose which feature to implement. There is no time pressure. Just notify us by email when you are done.
+```sh
+git clone https://github.com/pfelicio/archlet-challenge.git archlet-challenge
+cd archlet-challenge
+```
 
-We are going to look at your code in terms of simplicity, structure and style. This includes how the commits are structured and what the commit message style looks like.
+Then install dependencies:
 
-Please also write an imaginary todo list in this repository of what could be changed or added in the future.
+```sh
+npm install
+```
 
-If you want to, then you could also implement unit tests and try to make it as performant as possible - fancy optimization tricks - let your mind free.
+## Start
+
+Start the app by typing:
+
+```sh
+npm start
+```
+
+Then navigate to [http://localhost:3000]
+
+## Usage
+
+Use the control buttons on top to Start/Stop the game.
+Available Controls:
+
+-  **Tick**: Manually advance a tick (a tick is a generation)
+-  **Reset**: Reset the board
+-  **Start/Stop**: Start/Pause the Game
+-  **X +/Y +**: Add a column/row to the board
+-  **X -/Y -**: Remove last column/row of the board
+
+## ToDos
+
+-  [ ] Create separate component for the controls (and maybe a higher order ControlPanel)
+-  [ ] Add shouldComponentUpdate to the cells to prevent them from rerendering if prop `alive` didn't change
+-  [ ] Replace immutability-helper with `immer` as recommended in the Redux Style Guide
+-  [ ] Compose reducer better. Separate logic into functions (and actually use `combineReducers`)
+-  [ ] Make it look nicer
+-  [ ] Add control to maximize board to the view
+-  [ ] Control tick length
