@@ -41,7 +41,7 @@ Available Controls:
 ## ToDos
 
 -  [ ] Create separate component for the controls (and maybe a higher order ControlPanel)
--  [ ] Add shouldComponentUpdate to the cells to prevent them from rerendering if prop `alive` didn't change
+-  [x] Add shouldComponentUpdate to the cells to prevent them from rerendering if prop `alive` didn't change
 -  [ ] Replace immutability-helper with `immer` as recommended in the Redux Style Guide
 -  [ ] Compose reducer better. Separate logic into functions (and actually use `combineReducers`)
 -  [ ] Make it look nicer
