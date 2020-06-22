@@ -15,12 +15,10 @@ class Board extends Component {
       const style = {
          width: `${width}em`,
          height: `${height}em`,
-         backgroundColor: "lightgrey",
-         position: "relative",
       };
 
       return (
-         <div style={style}>
+         <div style={style} className={classes.Board}>
             {this.props.cells.map((col, i) => {
                return col.map((alive, j) => {
                   return (
