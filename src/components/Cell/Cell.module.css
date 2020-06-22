@@ -1,7 +1,5 @@
 .CellAlive {
    border: 1px solid black;
-   width: 5em;
-   height: 5em;
    margin: 0px;
    position: absolute;
    background-color: black;
@@ -9,8 +7,6 @@
 
 .CellDead {
    border: 1px solid black;
-   width: 5em;
-   height: 5em;
    margin: 0px;
    position: absolute;
    background-color: lightgrey;
