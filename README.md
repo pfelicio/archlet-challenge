@@ -7,8 +7,8 @@
 Clone or download the repository:
 
 ```sh
-git clone https://github.com/pfelicio/archlet-challenge.git archlet-challenge
-cd archlet-challenge
+git clone https://github.com/pfelicio/game-of-life.git game-of-life
+cd game-of-life
 ```
 
 Then install dependencies:
